@@ -102,13 +102,20 @@ def playAgain():
     print('Do you want to play again? (yes or no)')
     return raw_input().lower().startswith('y')
 
+def displayStats(wins,losses):
+    #this prints how many wins and losses the user has
+    totalPlays = wins+losses
+    winningPercentage = (float(wins) / float(totalPlays)) * 100.0
+    print("You have won " + str(wins) + " times and lost " + str(losses) + " times.")
+    print("You have a " + str(winningPercentage) + " percent success rate.")
 
 print('H A N G M A N')
 missedLetters = ''
 correctLetters = ''
 secretWord = getRandomWord(words)
 gameIsDone = False
-
+wins = 0
+losses = 0
 while True:
     displayBoard(HANGMANPICS, missedLetters, correctLetters, secretWord)
 
@@ -126,6 +133,7 @@ while True:
                 break
         if foundAllLetters:
             print('Yes! The secret word is "' + secretWord + '"! You have won!')
+            wins = wins + 1
             gameIsDone = True
     else:
         missedLetters = missedLetters + guess
@@ -135,9 +143,11 @@ while True:
             displayBoard(HANGMANPICS, missedLetters, correctLetters, secretWord)
             print('You have run out of guesses!\nAfter ' + str(len(missedLetters)) + ' missed guesses and ' + str(len(correctLetters)) + ' correct guesses, the word was "' + secretWord + '"')
             gameIsDone = True
+            losses = losses + 1
 
     # Ask the player if they want to play again (but only if the game is done).
     if gameIsDone:
+        print displayStats(wins,losses)
         if playAgain():
             missedLetters = ''
             correctLetters = ''
